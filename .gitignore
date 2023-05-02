@@ -1,0 +1,17 @@
+### Project hidden files ###
+hidden.yml
+liquibase.properties
+
+### Maven ###
+.mvn/
+
+### Compiled classes ###
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
