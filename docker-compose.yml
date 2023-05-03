@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    image: eureka-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8761:8761"
+  reporting:
+    image: reporting
+    environment:
+      - SERVER_PORT=8083
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka-server
+    command: ["./wait-for-it.sh", "eureka-server:8761", "--", "java", "-jar", "reporting.jar"]
+  wallet-management:
+    image: wallet-management
+    environment:
+      - SERVER_PORT=8082
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka-server
+    command: ["./wait-for-it.sh", "eureka-server:8761", "--", "java", "-jar", "wallet-management.jar"]
+  transaction-management:
+    image: transaction-management
+    environment:
+      - SERVER_PORT=8081
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+    command: ["./wait-for-it.sh", "eureka-server:8761", "--", "java", "-jar", "transaction-management.jar"]
+  api-gateway:
+    image: api-gateway
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8765:8765"
+    depends_on:
+      - reporting
+      - wallet-management
+      - transaction-management
+    command: ["./wait-for-it.sh", "reporting:8083", "--",
+              "./wait-for-it.sh", "wallet-management:8082", "--",
+              "./wait-for-it.sh", "transaction-management:8081", "--",
+              "java", "-jar", "api-gateway.jar"]

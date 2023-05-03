@@ -1,0 +1,15 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  application:
+    name: wallet-management
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+
+logging:
+  pattern:
+    console: "%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n"
