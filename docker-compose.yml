@@ -32,6 +32,9 @@ services:
     environment:
       - SERVER_PORT=8081
       - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/event-store
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=rgw7KdF8Pjby
     ports:
       - "8081:8081"
     depends_on:
@@ -51,3 +54,17 @@ services:
               "./wait-for-it.sh", "wallet-management:8082", "--",
               "./wait-for-it.sh", "transaction-management:8081", "--",
               "java", "-jar", "api-gateway.jar"]
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=event-store
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=rgw7KdF8Pjby
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:

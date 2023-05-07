@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: transaction-management
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: true
 
 eureka:
   client:

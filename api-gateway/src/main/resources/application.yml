@@ -10,6 +10,11 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+      routes:
+        - id: transaction-route
+          uri: lb://transaction-management
+          predicates:
+            - Path=/api/transaction/**
 
 eureka:
   client:
