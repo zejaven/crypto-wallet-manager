@@ -12,6 +12,9 @@ services:
     environment:
       - SERVER_PORT=8083
       - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/event-store
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=rgw7KdF8Pjby
     ports:
       - "8083:8083"
     depends_on:

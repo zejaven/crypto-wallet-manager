@@ -15,6 +15,10 @@ spring:
           uri: lb://transaction-management
           predicates:
             - Path=/api/transaction/**
+        - id: wallet-management-view-route
+          uri: lb://wallet-management-view
+          predicates:
+            - Path=/api/wallet/**
 
 eureka:
   client:

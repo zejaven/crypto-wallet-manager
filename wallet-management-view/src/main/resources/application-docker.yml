@@ -1,9 +1,22 @@
 server:
   port: ${SERVER_PORT}
 
+app:
+  default-wallet-id: 467f7419-e9ac-4ffd-8a02-7e11310b0de0
+
 spring:
   application:
     name: wallet-management-view
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: true
+
+axon:
+  eventhandling:
+    processors:
+      wallet-processor:
+        mode: tracking
 
 eureka:
   client:

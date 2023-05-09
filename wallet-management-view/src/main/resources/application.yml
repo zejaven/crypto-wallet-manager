@@ -1,9 +1,27 @@
 server:
   port: 0
 
+app:
+  default-wallet-id: 467f7419-e9ac-4ffd-8a02-7e11310b0de0
+
 spring:
   application:
     name: wallet-management-view
+  datasource:
+    url: jdbc:postgresql://localhost:5432/event-store
+    username: ${psql.username}
+    password: ${psql.password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: true
+  config:
+    import: classpath:hidden.yml
+
+axon:
+  eventhandling:
+    processors:
+      wallet-processor:
+        mode: tracking
 
 eureka:
   client:
