@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: reporting
+    name: wallet-management-view
 
 eureka:
   client:

@@ -7,8 +7,8 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8761:8761"
-  reporting:
-    image: reporting
+  wallet-management-view:
+    image: wallet-management-view
     environment:
       - SERVER_PORT=8083
       - SPRING_PROFILES_ACTIVE=docker
@@ -16,7 +16,7 @@ services:
       - "8083:8083"
     depends_on:
       - eureka-server
-    command: ["./wait-for-it.sh", "eureka-server:8761", "--", "java", "-jar", "reporting.jar"]
+    command: ["./wait-for-it.sh", "eureka-server:8761", "--", "java", "-jar", "wallet-management-view.jar"]
   wallet-management:
     image: wallet-management
     environment:
@@ -50,10 +50,10 @@ services:
     ports:
       - "8765:8765"
     depends_on:
-      - reporting
+      - wallet-management-view
       - wallet-management
       - transaction-management
-    command: ["./wait-for-it.sh", "reporting:8083", "--",
+    command: ["./wait-for-it.sh", "wallet-management-view:8083", "--",
               "./wait-for-it.sh", "wallet-management:8082", "--",
               "./wait-for-it.sh", "transaction-management:8081", "--",
               "java", "-jar", "api-gateway.jar"]

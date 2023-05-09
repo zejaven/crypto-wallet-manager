@@ -13,7 +13,7 @@
         <module>api-gateway</module>
         <module>transaction-management</module>
         <module>wallet-management</module>
-        <module>reporting</module>
+        <module>wallet-management-view</module>
         <module>common</module>
     </modules>
 

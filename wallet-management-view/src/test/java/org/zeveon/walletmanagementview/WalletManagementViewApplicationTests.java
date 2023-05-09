@@ -1,10 +1,10 @@
-package org.zeveon.reporting;
+package org.zeveon.walletmanagementview;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ReportingApplicationTests {
+class WalletManagementViewApplicationTests {
 
     @Test
     void contextLoads() {
