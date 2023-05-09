@@ -19,10 +19,9 @@ public class TransactionService {
     private final CommandGateway commandGateway;
 
     public CompletableFuture<String> send(ReceiveTransactionRequest request) {
-        return commandGateway.send(new ReceiveTransactionCommand(
-                UUID.randomUUID().toString(),
-                request.getDatetime(),
-                request.getAmount()
-        ));
+        return commandGateway.send(ReceiveTransactionCommand.builder()
+                .id(UUID.randomUUID().toString())
+                .dateTime(request.getDatetime())
+                .amount(request.getAmount()).build());
     }
 }
