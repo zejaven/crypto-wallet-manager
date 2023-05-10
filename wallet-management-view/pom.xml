@@ -19,6 +19,7 @@
         <spring-cloud.version>2022.0.2</spring-cloud.version>
         <axon.version>4.7.4</axon.version>
         <hibernate.version>6.2.2.Final</hibernate.version>
+        <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
         <postgres.version>42.6.0</postgres.version>
     </properties>
 
@@ -66,6 +67,11 @@
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
         </dependency>
 
         <!-- PostgreSQL -->

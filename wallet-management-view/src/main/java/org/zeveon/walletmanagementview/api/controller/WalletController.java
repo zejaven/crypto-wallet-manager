@@ -1,9 +1,11 @@
 package org.zeveon.walletmanagementview.api.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.messaging.responsetypes.MultipleInstancesResponseType;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import reactor.core.publisher.Mono;
 /**
  * @author Stanislav Vafin
  */
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/wallet")
@@ -27,7 +30,7 @@ public class WalletController {
 
     @GetMapping(value = "/default/history", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Flux<WalletBalanceHistoryResponse> getDefaultWalletHistory(
-            @RequestBody WalletBalanceHistoryRequest request
+            @RequestBody @Valid WalletBalanceHistoryRequest request
     ) {
         var query = FindDefaultWalletHistoryByDateTimeRangeQuery.builder()
                 .startDatetime(request.getStartDatetime())
@@ -35,8 +38,7 @@ public class WalletController {
                 .build();
         return Mono.fromFuture(queryGateway.query(query, new MultipleInstancesResponseType<>(WalletBalanceHistory.class)))
                 .flatMapMany(histories -> Flux.fromStream(histories.stream()))
-                .map(this::buildResponse)
-                .onErrorResume(e -> Flux.just(WalletBalanceHistoryResponse.builder().build()));
+                .map(this::buildResponse);
     }
 
     private WalletBalanceHistoryResponse buildResponse(WalletBalanceHistory walletBalanceHistory) {

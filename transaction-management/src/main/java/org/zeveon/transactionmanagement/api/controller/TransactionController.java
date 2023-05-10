@@ -1,5 +1,6 @@
 package org.zeveon.transactionmanagement.api.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,8 +22,7 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping(value = "/send", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<String> send(@RequestBody ReceiveTransactionRequest request) {
-        return Mono.fromFuture(transactionService.send(request))
-                .onErrorResume(e -> Mono.just(e.getMessage()));
+    public Mono<String> send(@RequestBody @Valid ReceiveTransactionRequest request) {
+        return Mono.fromFuture(transactionService.send(request));
     }
 }
