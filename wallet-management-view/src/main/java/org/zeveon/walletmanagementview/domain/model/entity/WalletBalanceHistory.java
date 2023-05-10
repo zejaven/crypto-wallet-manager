@@ -31,6 +31,6 @@ public class WalletBalanceHistory {
     @Column(name = "update_time", nullable = false)
     private ZonedDateTime updateTime;
 
-    @Column(name = "balance", nullable = false)
+    @Column(name = "balance", nullable = false, columnDefinition = "NUMERIC(38,8)")
     private BigDecimal balance;
 }
