@@ -21,6 +21,7 @@
         <hibernate.version>6.2.2.Final</hibernate.version>
         <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
         <postgres.version>42.6.0</postgres.version>
+        <liquibase.version>4.21.1</liquibase.version>
     </properties>
 
     <dependencies>
@@ -79,6 +80,13 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgres.version}</version>
+        </dependency>
+
+        <!-- Liquibase -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
         </dependency>
     </dependencies>
 

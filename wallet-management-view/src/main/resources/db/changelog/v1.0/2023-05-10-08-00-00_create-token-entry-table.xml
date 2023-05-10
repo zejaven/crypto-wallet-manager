@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2023-05-10-08-00-00_create-token-entry-table" author="Stanislav Vafin">
+        <createTable tableName="token_entry">
+            <column name="processor_name" type="varchar(255)">
+                <constraints primaryKey="true" primaryKeyName="token_entry_pkey"/>
+            </column>
+            <column name="segment" type="integer">
+                <constraints primaryKey="true" primaryKeyName="token_entry_pkey"/>
+            </column>
+            <column name="owner" type="varchar(255)"/>
+            <column name="timestamp" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="oid"/>
+            <column name="token_type" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

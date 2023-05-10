@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT}
+  port: 0
 
 app:
   default-wallet-id: 467f7419-e9ac-4ffd-8a02-7e11310b0de0
@@ -8,15 +8,20 @@ spring:
   application:
     name: wallet-management-view
   datasource:
+    url: jdbc:postgresql://localhost:5432/wallet-view
+    username: ${psql.username}
+    password: ${psql.password}
     driver-class-name: org.postgresql.Driver
   jpa:
-    generate-ddl: false
+    generate-ddl: true
   liquibase:
-    change-log: classpath:db/changelog/changelog-master.xml
+    enabled: false
+  config:
+    import: classpath:hidden.yml
 
 axon:
   axonserver:
-    servers: axon-server:8124
+    servers: localhost:8124
   eventhandling:
     processors:
       wallet-processor:
@@ -25,7 +30,7 @@ axon:
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:8761/eureka
+      defaultZone: http://localhost:8761/eureka
 
 logging:
   pattern:

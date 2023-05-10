@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <include file="v1.0/2023-05-10-08-00-00_create-token-entry-table.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0/2023-05-10-09-00-00_create-wallet-balance-history-table.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>
