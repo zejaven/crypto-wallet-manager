@@ -25,12 +25,12 @@ public class WalletBalanceHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "wallet_id")
+    @Column(name = "wallet_id", nullable = false)
     private String walletId;
 
-    @Column(name = "update_time")
+    @Column(name = "update_time", nullable = false)
     private ZonedDateTime updateTime;
 
-    @Column(name = "balance")
+    @Column(name = "balance", nullable = false)
     private BigDecimal balance;
 }
