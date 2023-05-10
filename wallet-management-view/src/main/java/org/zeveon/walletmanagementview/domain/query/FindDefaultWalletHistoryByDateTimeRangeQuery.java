@@ -1,14 +1,14 @@
 package org.zeveon.walletmanagementview.domain.query;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 import java.time.ZonedDateTime;
 
 /**
  * @author Stanislav Vafin
  */
-@Data
+@Getter
 @Builder
 public class FindDefaultWalletHistoryByDateTimeRangeQuery {
 
