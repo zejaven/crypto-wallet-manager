@@ -44,7 +44,7 @@ public class WalletBalanceHistoryQueryHandler {
                 atTheEndOfHourStartDatetime,
                 atTheEndOfHourEndDatetime,
                 commonZone);
-        var rangedBetweenDatesHistory = repository.findAllByWalletIdAndUpdateTimeBetweenOrderByUpdateTimeAsc(
+        var rangedBetweenDatesHistory = repository.findAllByWalletIdAndUpdateTimeBetweenOrderByUpdateTimeAscIdAsc(
                 defaultWalletId,
                 atTheEndOfHourStartDatetime,
                 atTheEndOfHourEndDatetime);

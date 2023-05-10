@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface WalletBalanceHistoryRepository extends JpaRepository<WalletBalanceHistory, Long> {
 
-    List<WalletBalanceHistory> findAllByWalletIdAndUpdateTimeBetweenOrderByUpdateTimeAsc(
+    List<WalletBalanceHistory> findAllByWalletIdAndUpdateTimeBetweenOrderByUpdateTimeAscIdAsc(
             String walletId,
             ZonedDateTime startDatetime,
             ZonedDateTime endDatetime
