@@ -8,7 +8,7 @@ spring:
   application:
     name: wallet-management-view
   datasource:
-    url: jdbc:postgresql://localhost:5432/event-store
+    url: jdbc:postgresql://localhost:5432/wallet-view
     username: ${psql.username}
     password: ${psql.password}
     driver-class-name: org.postgresql.Driver
@@ -18,6 +18,8 @@ spring:
     import: classpath:hidden.yml
 
 axon:
+  axonserver:
+    servers: localhost:8124
   eventhandling:
     processors:
       wallet-processor:

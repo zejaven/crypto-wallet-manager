@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.zeveon.common.model.event.BaseEvent;
+import org.zeveon.walletmanagement.domain.command.BaseCommand;
 
 /**
  * @author Stanislav Vafin
@@ -19,6 +20,7 @@ public class AxonConfig {
     public Serializer serializer() {
         var xStream = new XStream();
         xStream.allowTypeHierarchy(BaseEvent.class);
+        xStream.allowTypeHierarchy(BaseCommand.class);
         return XStreamSerializer.builder()
                 .xStream(xStream)
                 .build();

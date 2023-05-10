@@ -7,51 +7,64 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8761:8761"
+    networks:
+      - axon-server-network
   wallet-management-view:
     image: wallet-management-view
     environment:
       - SERVER_PORT=8083
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/event-store
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/wallet-view
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=rgw7KdF8Pjby
     ports:
       - "8083:8083"
+    networks:
+      - axon-server-network
     depends_on:
       - eureka-server
-    command: ["./wait-for-it.sh", "eureka-server:8761", "--", "java", "-jar", "wallet-management-view.jar"]
+      - axon-server
+    command: ["./wait-for-it.sh", "eureka-server:8761", "--",
+              "./wait-for-it.sh", "axon-server:8124", "--",
+              "java", "-jar", "wallet-management-view.jar"]
   wallet-management:
     image: wallet-management
     environment:
       - SERVER_PORT=8082
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/event-store
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=rgw7KdF8Pjby
     ports:
       - "8082:8082"
+    networks:
+      - axon-server-network
     depends_on:
       - eureka-server
-    command: ["./wait-for-it.sh", "eureka-server:8761", "--", "java", "-jar", "wallet-management.jar"]
+      - axon-server
+    command: ["./wait-for-it.sh", "eureka-server:8761", "--",
+              "./wait-for-it.sh", "axon-server:8124", "--",
+              "java", "-jar", "wallet-management.jar"]
   transaction-management:
     image: transaction-management
     environment:
       - SERVER_PORT=8081
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/event-store
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=rgw7KdF8Pjby
     ports:
       - "8081:8081"
+    networks:
+      - axon-server-network
     depends_on:
       - eureka-server
-    command: ["./wait-for-it.sh", "eureka-server:8761", "--", "java", "-jar", "transaction-management.jar"]
+      - axon-server
+    command: ["./wait-for-it.sh", "eureka-server:8761", "--",
+              "./wait-for-it.sh", "axon-server:8124", "--",
+              "java", "-jar", "transaction-management.jar"]
   api-gateway:
     image: api-gateway
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8765:8765"
+    networks:
+      - axon-server-network
     depends_on:
       - wallet-management-view
       - wallet-management
@@ -65,12 +78,35 @@ services:
     image: postgres:latest
     ports:
       - "5433:5432"
+    networks:
+      - axon-server-network
     environment:
-      - POSTGRES_DB=event-store
+      - POSTGRES_DB=wallet-view
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=rgw7KdF8Pjby
     volumes:
       - db-data:/var/lib/postgresql/data
+      - ./db-init/init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql
+
+  axon-server:
+    image: axoniq/axonserver
+    container_name: axon-server
+    ports:
+      - "8024:8024"
+      - "8124:8124"
+    environment:
+      - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true
+    volumes:
+      - axon-server-data:/data
+      - axon-server-logs:/log
+    networks:
+      - axon-server-network
+
+networks:
+  axon-server-network:
+    driver: bridge
 
 volumes:
   db-data:
+  axon-server-data:
+  axon-server-logs:

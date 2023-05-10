@@ -9,15 +9,6 @@ app:
 spring:
   application:
     name: wallet-management
-  datasource:
-    url: jdbc:postgresql://localhost:5432/event-store
-    username: ${psql.username}
-    password: ${psql.password}
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    generate-ddl: true
-  config:
-    import: classpath:hidden.yml
 
 axon:
   eventhandling:

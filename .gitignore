@@ -1,6 +1,7 @@
 ### Project hidden files ###
 hidden.yml
 liquibase.properties
+axon-server/
 
 ### Maven ###
 .mvn/

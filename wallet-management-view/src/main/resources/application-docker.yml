@@ -13,6 +13,8 @@ spring:
     generate-ddl: true
 
 axon:
+  axonserver:
+    servers: axon-server:8124
   eventhandling:
     processors:
       wallet-processor:
