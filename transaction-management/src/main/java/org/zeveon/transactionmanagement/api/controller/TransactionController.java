@@ -1,5 +1,6 @@
 package org.zeveon.transactionmanagement.api.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -21,6 +22,7 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
+    @Operation(summary = "Send transaction", description = "Send transaction to application main wallet")
     @PostMapping(value = "/send", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Mono<String> send(@RequestBody @Valid ReceiveTransactionRequest request) {
         return Mono.fromFuture(transactionService.send(request));

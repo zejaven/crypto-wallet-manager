@@ -20,6 +20,14 @@ spring:
           predicates:
             - Path=/api/wallet/**
 
+springdoc:
+  swagger-ui:
+    urls:
+      - name: transaction-management
+        url: /transaction-management/v3/api-docs
+      - name: wallet-management-view
+        url: /wallet-management-view/v3/api-docs
+
 eureka:
   client:
     service-url:
