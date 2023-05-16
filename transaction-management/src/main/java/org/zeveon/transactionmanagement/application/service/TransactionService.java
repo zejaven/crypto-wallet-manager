@@ -22,6 +22,7 @@ public class TransactionService {
         return commandGateway.send(ReceiveTransactionCommand.builder()
                 .id(UUID.randomUUID().toString())
                 .dateTime(request.getDatetime())
-                .amount(request.getAmount()).build());
+                .amount(request.getAmount())
+                .build());
     }
 }
