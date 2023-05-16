@@ -52,7 +52,7 @@ public class Wallet {
     public void on(UpdateWalletBalanceCommand command) {
         if (command.getDateTime().isBefore(this.updateTime)) {
             log.info("Transaction cannot happen before the last transaction. Transaction date: %s, Transaction amount: %s"
-                    .formatted(command.getDateTime(), command.getBalance()));
+                    .formatted(command.getDateTime(), command.getAmount()));
             AggregateLifecycle.apply(WalletBalanceUpdateFailedEvent.builder()
                     .id(command.getId())
                     .dateTime(command.getDateTime())
@@ -62,7 +62,7 @@ public class Wallet {
             AggregateLifecycle.apply(WalletBalanceUpdatedEvent.builder()
                     .id(command.getId())
                     .dateTime(command.getDateTime())
-                    .balance(this.balance.add(command.getBalance()))
+                    .balance(this.balance.add(command.getAmount()))
                     .build());
         }
     }

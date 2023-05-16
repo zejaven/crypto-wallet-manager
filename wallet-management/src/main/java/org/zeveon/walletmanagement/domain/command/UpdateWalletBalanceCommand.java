@@ -14,5 +14,5 @@ import java.time.ZonedDateTime;
 public class UpdateWalletBalanceCommand extends BaseCommand {
 
     private final ZonedDateTime dateTime;
-    private final BigDecimal balance;
+    private final BigDecimal amount;
 }

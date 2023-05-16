@@ -31,7 +31,7 @@ public class WalletHandler {
             commandGateway.send(UpdateWalletBalanceCommand.builder()
                     .id(defaultWalletId)
                     .dateTime(event.getDateTime())
-                    .balance(event.getAmount())
+                    .amount(event.getAmount())
                     .build());
         }
     }
