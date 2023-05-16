@@ -22,6 +22,7 @@
         <postgres.version>42.6.0</postgres.version>
         <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
         <springdoc.version>2.1.0</springdoc.version>
+        <guava.version>31.1-jre</guava.version>
     </properties>
 
     <dependencies>
@@ -63,7 +64,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
+            <version>${guava.version}</version>
         </dependency>
 
         <!-- Springdoc OpenAPI -->

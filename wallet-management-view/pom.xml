@@ -23,6 +23,7 @@
         <postgres.version>42.6.0</postgres.version>
         <liquibase.version>4.21.1</liquibase.version>
         <springdoc.version>2.1.0</springdoc.version>
+        <guava.version>31.1-jre</guava.version>
     </properties>
 
     <dependencies>
@@ -61,7 +62,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
+            <version>${guava.version}</version>
         </dependency>
 
         <!-- Hibernate -->
