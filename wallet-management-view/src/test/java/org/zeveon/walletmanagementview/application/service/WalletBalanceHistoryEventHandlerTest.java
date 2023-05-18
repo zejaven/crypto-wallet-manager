@@ -42,7 +42,7 @@ public class WalletBalanceHistoryEventHandlerTest {
         var initialBalance = BigDecimal.ONE;
 
         when(repository.save(any(WalletBalanceHistory.class)))
-                .thenReturn(newWalletBalanceHistory(id, initialDate, initialBalance));
+                .thenReturn(buildWalletBalanceHistory(id, initialDate, initialBalance));
 
         handler.on(new WalletCreatedEvent(id, initialDate, initialBalance));
 
@@ -61,7 +61,7 @@ public class WalletBalanceHistoryEventHandlerTest {
         var balance = BigDecimal.ONE;
 
         when(repository.save(any(WalletBalanceHistory.class)))
-                .thenReturn(newWalletBalanceHistory(id, dateTime, balance));
+                .thenReturn(buildWalletBalanceHistory(id, dateTime, balance));
 
         handler.on(new WalletBalanceUpdatedEvent(id, dateTime, balance));
 
@@ -73,7 +73,7 @@ public class WalletBalanceHistoryEventHandlerTest {
         assertEquals(savedEntity.getBalance(), balance);
     }
 
-    private WalletBalanceHistory newWalletBalanceHistory(String id, ZonedDateTime initialDate, BigDecimal initialBalance) {
+    private WalletBalanceHistory buildWalletBalanceHistory(String id, ZonedDateTime initialDate, BigDecimal initialBalance) {
         return WalletBalanceHistory.builder()
                 .walletId(id)
                 .updateTime(initialDate)
