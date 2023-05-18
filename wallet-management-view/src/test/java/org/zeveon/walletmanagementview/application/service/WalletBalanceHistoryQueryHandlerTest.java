@@ -154,7 +154,7 @@ public class WalletBalanceHistoryQueryHandlerTest {
             List<WalletBalanceHistory> foundHistories,
             List<WalletBalanceHistory> expectedResult
     ) {
-        var query = newFindDefaultWalletHistoryByDateTimeRangeQuery(startDateTime, endDateTime);
+        var query = new FindDefaultWalletHistoryByDateTimeRangeQuery(startDateTime, endDateTime);
 
         when(repository.findAllByWalletIdAndUpdateTimeBetweenOrderByUpdateTimeAscIdAsc(
                 anyString(),
@@ -172,16 +172,6 @@ public class WalletBalanceHistoryQueryHandlerTest {
         assertNotNull(result);
         assertEquals(result.size(), expectedResult.size());
         assertTrue(result.containsAll(expectedResult));
-    }
-
-    private FindDefaultWalletHistoryByDateTimeRangeQuery newFindDefaultWalletHistoryByDateTimeRangeQuery(
-            ZonedDateTime startDateTime,
-            ZonedDateTime endDateTime
-    ) {
-        return FindDefaultWalletHistoryByDateTimeRangeQuery.builder()
-                .startDatetime(startDateTime)
-                .endDatetime(endDateTime)
-                .build();
     }
 
     private static WalletBalanceHistory newWalletBalanceHistory(String id, ZonedDateTime initialDate, BigDecimal initialBalance) {

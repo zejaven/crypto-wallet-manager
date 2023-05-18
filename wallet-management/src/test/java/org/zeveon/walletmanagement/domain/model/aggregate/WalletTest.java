@@ -33,8 +33,8 @@ public class WalletTest {
         var initialBalance = BigDecimal.ONE;
 
         testFixture.givenNoPriorActivity()
-                .when(newCreateWalletCommand(id, initialDate, initialBalance))
-                .expectEvents(newWalletCreatedEvent(id, initialDate, initialBalance));
+                .when(new CreateWalletCommand(id, initialDate, initialBalance))
+                .expectEvents(new WalletCreatedEvent(id, initialDate, initialBalance));
     }
 
     @Test
@@ -46,9 +46,9 @@ public class WalletTest {
         var amount = BigDecimal.ONE;
         var expectedBalance = BigDecimal.valueOf(2L);
 
-        testFixture.given(newWalletCreatedEvent(id, initialDateTime, initialBalance))
-                .when(newUpdateWalletBalanceCommand(id, updateDateTime, amount))
-                .expectEvents(newWalletBalanceUpdatedEvent(id, updateDateTime, expectedBalance));
+        testFixture.given(new WalletCreatedEvent(id, initialDateTime, initialBalance))
+                .when(new UpdateWalletBalanceCommand(id, updateDateTime, amount))
+                .expectEvents(new WalletBalanceUpdatedEvent(id, updateDateTime, expectedBalance));
     }
 
     @Test
@@ -59,48 +59,8 @@ public class WalletTest {
         var updateDateTime = ZonedDateTime.now().minusHours(1L);
         var amount = BigDecimal.ONE;
 
-        testFixture.given(newWalletCreatedEvent(id, initialDateTime, initialBalance))
-                .when(newUpdateWalletBalanceCommand(id, updateDateTime, amount))
-                .expectEvents(newWalletBalanceUpdateFailedEvent(id, updateDateTime));
-    }
-
-    private CreateWalletCommand newCreateWalletCommand(String id, ZonedDateTime initialDate, BigDecimal initialBalance) {
-        return CreateWalletCommand.builder()
-                .id(id)
-                .initialDate(initialDate)
-                .initialBalance(initialBalance)
-                .build();
-    }
-
-    private WalletCreatedEvent newWalletCreatedEvent(String id, ZonedDateTime initialDate, BigDecimal initialBalance) {
-        return WalletCreatedEvent.builder()
-                .id(id)
-                .initialDate(initialDate)
-                .initialBalance(initialBalance)
-                .build();
-    }
-
-    private UpdateWalletBalanceCommand newUpdateWalletBalanceCommand(String id, ZonedDateTime dateTime, BigDecimal amount) {
-        return UpdateWalletBalanceCommand.builder()
-                .id(id)
-                .dateTime(dateTime)
-                .amount(amount)
-                .build();
-    }
-
-    private WalletBalanceUpdatedEvent newWalletBalanceUpdatedEvent(String id, ZonedDateTime dateTime, BigDecimal balance) {
-        return WalletBalanceUpdatedEvent.builder()
-                .id(id)
-                .dateTime(dateTime)
-                .balance(balance)
-                .build();
-    }
-
-    private WalletBalanceUpdateFailedEvent newWalletBalanceUpdateFailedEvent(String id, ZonedDateTime dateTime) {
-        return WalletBalanceUpdateFailedEvent.builder()
-                .id(id)
-                .dateTime(dateTime)
-                .failedReason(FailedReason.TRANSACTIONS_MUST_BE_SEQUENTIAL)
-                .build();
+        testFixture.given(new WalletCreatedEvent(id, initialDateTime, initialBalance))
+                .when(new UpdateWalletBalanceCommand(id, updateDateTime, amount))
+                .expectEvents(new WalletBalanceUpdateFailedEvent(id, updateDateTime, FailedReason.TRANSACTIONS_MUST_BE_SEQUENTIAL));
     }
 }

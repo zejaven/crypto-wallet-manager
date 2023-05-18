@@ -28,11 +28,11 @@ public class WalletHandler {
     @EventHandler
     public void on(TransactionReceivedEvent event) {
         if (!aggregateExists(event.getId())) {
-            commandGateway.send(UpdateWalletBalanceCommand.builder()
-                    .id(defaultWalletId)
-                    .dateTime(event.getDateTime())
-                    .amount(event.getAmount())
-                    .build());
+            commandGateway.send(new UpdateWalletBalanceCommand(
+                    defaultWalletId,
+                    event.getDateTime(),
+                    event.getAmount()
+            ));
         }
     }
 

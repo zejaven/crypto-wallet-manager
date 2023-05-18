@@ -44,7 +44,7 @@ public class WalletBalanceHistoryEventHandlerTest {
         when(repository.save(any(WalletBalanceHistory.class)))
                 .thenReturn(newWalletBalanceHistory(id, initialDate, initialBalance));
 
-        handler.on(newWalletCreatedEvent(id, initialDate, initialBalance));
+        handler.on(new WalletCreatedEvent(id, initialDate, initialBalance));
 
         verify(repository).save(entityCaptor.capture());
 
@@ -63,7 +63,7 @@ public class WalletBalanceHistoryEventHandlerTest {
         when(repository.save(any(WalletBalanceHistory.class)))
                 .thenReturn(newWalletBalanceHistory(id, dateTime, balance));
 
-        handler.on(newWalletBalanceUpdatedEvent(id, dateTime, balance));
+        handler.on(new WalletBalanceUpdatedEvent(id, dateTime, balance));
 
         verify(repository).save(entityCaptor.capture());
 
@@ -71,22 +71,6 @@ public class WalletBalanceHistoryEventHandlerTest {
         assertEquals(savedEntity.getWalletId(), id);
         assertEquals(savedEntity.getUpdateTime(), dateTime);
         assertEquals(savedEntity.getBalance(), balance);
-    }
-
-    private WalletCreatedEvent newWalletCreatedEvent(String id, ZonedDateTime initialDate, BigDecimal initialBalance) {
-        return WalletCreatedEvent.builder()
-                .id(id)
-                .initialDate(initialDate)
-                .initialBalance(initialBalance)
-                .build();
-    }
-
-    private WalletBalanceUpdatedEvent newWalletBalanceUpdatedEvent(String id, ZonedDateTime dateTime, BigDecimal balance) {
-        return WalletBalanceUpdatedEvent.builder()
-                .id(id)
-                .dateTime(dateTime)
-                .balance(balance)
-                .build();
     }
 
     private WalletBalanceHistory newWalletBalanceHistory(String id, ZonedDateTime initialDate, BigDecimal initialBalance) {

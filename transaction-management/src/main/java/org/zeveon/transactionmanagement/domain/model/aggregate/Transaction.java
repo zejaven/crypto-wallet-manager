@@ -29,11 +29,11 @@ public class Transaction {
 
     @CommandHandler
     public Transaction(ReceiveTransactionCommand command) {
-        AggregateLifecycle.apply(TransactionReceivedEvent.builder()
-                .id(command.getId())
-                .dateTime(command.getDateTime())
-                .amount(command.getAmount())
-                .build());
+        AggregateLifecycle.apply(new TransactionReceivedEvent(
+                command.getId(),
+                command.getDateTime(),
+                command.getAmount()
+        ));
     }
 
     @EventSourcingHandler

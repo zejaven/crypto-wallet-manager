@@ -31,10 +31,10 @@ public class WalletController {
     public Flux<WalletBalanceHistoryResponse> getDefaultWalletHistory(
             @RequestBody @Valid WalletBalanceHistoryRequest request
     ) {
-        var query = FindDefaultWalletHistoryByDateTimeRangeQuery.builder()
-                .startDatetime(request.getStartDatetime())
-                .endDatetime(request.getEndDatetime())
-                .build();
+        var query = new FindDefaultWalletHistoryByDateTimeRangeQuery(
+                request.getStartDatetime(),
+                request.getEndDatetime()
+        );
         return Mono.fromFuture(queryGateway.query(query, new MultipleInstancesResponseType<>(WalletBalanceHistory.class)))
                 .flatMapMany(histories -> Flux.fromStream(histories.stream()))
                 .map(this::buildResponse);

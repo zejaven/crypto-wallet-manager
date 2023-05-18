@@ -29,23 +29,7 @@ public class TransactionTest {
         var dateTime = ZonedDateTime.now();
 
         testFixture.givenNoPriorActivity()
-                .when(newReceiveTransactionCommand(id, amount, dateTime))
-                .expectEvents(newTransactionReceivedEvent(id, amount, dateTime));
-    }
-
-    private ReceiveTransactionCommand newReceiveTransactionCommand(String id, BigDecimal amount, ZonedDateTime dateTime) {
-        return ReceiveTransactionCommand.builder()
-                .id(id)
-                .amount(amount)
-                .dateTime(dateTime)
-                .build();
-    }
-
-    private TransactionReceivedEvent newTransactionReceivedEvent(String id, BigDecimal amount, ZonedDateTime dateTime) {
-        return TransactionReceivedEvent.builder()
-                .id(id)
-                .amount(amount)
-                .dateTime(dateTime)
-                .build();
+                .when(new ReceiveTransactionCommand(id, dateTime, amount))
+                .expectEvents(new TransactionReceivedEvent(id, dateTime, amount));
     }
 }

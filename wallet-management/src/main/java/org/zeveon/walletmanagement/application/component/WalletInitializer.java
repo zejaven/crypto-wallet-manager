@@ -37,11 +37,11 @@ public class WalletInitializer {
     @EventListener(ApplicationReadyEvent.class)
     public void createDefaultWallet() {
         if (!aggregateExists(defaultWalletId)) {
-            commandGateway.sendAndWait(CreateWalletCommand.builder()
-                    .id(defaultWalletId)
-                    .initialDate(initialDate)
-                    .initialBalance(initialBalance)
-                    .build());
+            commandGateway.sendAndWait(new CreateWalletCommand(
+                    defaultWalletId,
+                    initialDate,
+                    initialBalance
+            ));
         }
     }
 

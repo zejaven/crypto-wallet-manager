@@ -34,11 +34,11 @@ public class Wallet {
 
     @CommandHandler
     public Wallet(CreateWalletCommand command) {
-        AggregateLifecycle.apply(WalletCreatedEvent.builder()
-                .id(command.getId())
-                .initialDate(command.getInitialDate())
-                .initialBalance(command.getInitialBalance())
-                .build());
+        AggregateLifecycle.apply(new WalletCreatedEvent(
+                command.getId(),
+                command.getInitialDate(),
+                command.getInitialBalance()
+        ));
     }
 
     @EventSourcingHandler
@@ -53,17 +53,17 @@ public class Wallet {
         if (command.getDateTime().isBefore(this.updateTime)) {
             log.info("Transaction cannot happen before the last transaction. Transaction date: %s, Transaction amount: %s"
                     .formatted(command.getDateTime(), command.getAmount()));
-            AggregateLifecycle.apply(WalletBalanceUpdateFailedEvent.builder()
-                    .id(command.getId())
-                    .dateTime(command.getDateTime())
-                    .failedReason(FailedReason.TRANSACTIONS_MUST_BE_SEQUENTIAL)
-                    .build());
+            AggregateLifecycle.apply(new WalletBalanceUpdateFailedEvent(
+                    command.getId(),
+                    command.getDateTime(),
+                    FailedReason.TRANSACTIONS_MUST_BE_SEQUENTIAL
+            ));
         } else {
-            AggregateLifecycle.apply(WalletBalanceUpdatedEvent.builder()
-                    .id(command.getId())
-                    .dateTime(command.getDateTime())
-                    .balance(this.balance.add(command.getAmount()))
-                    .build());
+            AggregateLifecycle.apply(new WalletBalanceUpdatedEvent(
+                    command.getId(),
+                    command.getDateTime(),
+                    this.balance.add(command.getAmount())
+            ));
         }
     }
 

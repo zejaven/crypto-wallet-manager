@@ -59,7 +59,7 @@ public class WalletHandlerTest {
         when(eventStore.readEvents(any(String.class)))
                 .thenReturn(DomainEventStream.of(Stream.empty()));
 
-        walletHandler.on(newTransactionReceivedEvent(id, dateTime, amount));
+        walletHandler.on(new TransactionReceivedEvent(id, dateTime, amount));
 
         verify(commandGateway).send(commandCaptor.capture());
 
@@ -79,16 +79,8 @@ public class WalletHandlerTest {
         when(eventStore.readEvents(any(String.class)))
                 .thenReturn(DomainEventStream.of(Stream.of(domainEventMessage)));
 
-        walletHandler.on(newTransactionReceivedEvent(id, dateTime, amount));
+        walletHandler.on(new TransactionReceivedEvent(id, dateTime, amount));
 
         verify(commandGateway, never()).send(any(UpdateWalletBalanceCommand.class));
-    }
-
-    private TransactionReceivedEvent newTransactionReceivedEvent(String id, ZonedDateTime dateTime, BigDecimal amount) {
-        return TransactionReceivedEvent.builder()
-                .id(id)
-                .dateTime(dateTime)
-                .amount(amount)
-                .build();
     }
 }
