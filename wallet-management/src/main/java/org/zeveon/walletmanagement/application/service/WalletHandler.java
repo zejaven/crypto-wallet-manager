@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
-import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.zeveon.common.model.event.transaction.TransactionReceivedEvent;
@@ -20,24 +19,15 @@ public class WalletHandler {
 
     private final CommandGateway commandGateway;
 
-    private final EventStore eventStore;
-
     @Value("${app.default-wallet-id}")
     private String defaultWalletId;
 
     @EventHandler
     public void on(TransactionReceivedEvent event) {
-        if (!aggregateExists(event.getId())) {
-            commandGateway.send(new UpdateWalletBalanceCommand(
-                    defaultWalletId,
-                    event.getDateTime(),
-                    event.getAmount()
+        commandGateway.send(new UpdateWalletBalanceCommand(
+                defaultWalletId,
+                event.getDateTime(),
+                event.getAmount()
             ));
-        }
-    }
-
-    private boolean aggregateExists(String aggregateIdentifier) {
-        return eventStore.readEvents(aggregateIdentifier).asStream()
-                .findFirst().isPresent();
     }
 }
