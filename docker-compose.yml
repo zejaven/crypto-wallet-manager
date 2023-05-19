@@ -24,14 +24,19 @@ services:
     depends_on:
       - eureka-server
       - axon-server
+      - db
     command: ["./wait-for-it.sh", "eureka-server:8761", "--",
               "./wait-for-it.sh", "axon-server:8124", "--",
+              "./wait-for-it.sh", "db:5432", "--",
               "java", "-jar", "wallet-management-view.jar"]
   wallet-management:
     image: wallet-management
     environment:
       - SERVER_PORT=8082
       - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://wallet-token-db:5432/wallet-token-store
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=rgw7KdF8Pjby
     ports:
       - "8082:8082"
     networks:
@@ -39,8 +44,10 @@ services:
     depends_on:
       - eureka-server
       - axon-server
+      - wallet-token-db
     command: ["./wait-for-it.sh", "eureka-server:8761", "--",
               "./wait-for-it.sh", "axon-server:8124", "--",
+              "./wait-for-it.sh", "wallet-token-db:5432", "--",
               "java", "-jar", "wallet-management.jar"]
   transaction-management:
     image: transaction-management
@@ -88,6 +95,19 @@ services:
       - db-data:/var/lib/postgresql/data
       - ./db-init/init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql
 
+  wallet-token-db:
+    image: postgres:latest
+    ports:
+      - "5434:5432"
+    networks:
+      - axon-server-network
+    environment:
+      - POSTGRES_DB=wallet-token-store
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=rgw7KdF8Pjby
+    volumes:
+      - wallet-token-db-data:/var/lib/postgresql/data
+
   axon-server:
     image: axoniq/axonserver
     container_name: axon-server
@@ -108,5 +128,6 @@ networks:
 
 volumes:
   db-data:
+  wallet-token-db-data:
   axon-server-data:
   axon-server-logs:

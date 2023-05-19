@@ -9,6 +9,10 @@ app:
 spring:
   application:
     name: wallet-management
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: true
 
 axon:
   axonserver:
