@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2023-05-10-09-00-00_create-wallet-balance-history-resampled-table" author="Stanislav Vafin">
+        <createTable tableName="wallet_balance_history_resampled" schemaName="wallet_management">
+            <column name="wallet_id" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="wallet_balance_history_resampled_pkey"/>
+            </column>
+            <column name="update_time" type="timestamp(6) with time zone">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="wallet_balance_history_resampled_pkey"/>
+            </column>
+            <column name="balance" type="numeric(38,8)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

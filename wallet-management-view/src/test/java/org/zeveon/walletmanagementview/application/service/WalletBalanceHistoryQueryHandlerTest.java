@@ -8,12 +8,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.zeveon.walletmanagementview.domain.model.entity.WalletBalanceHistory;
+import org.zeveon.walletmanagementview.domain.model.entity.WalletBalanceHistoryId;
+import org.zeveon.walletmanagementview.domain.model.entity.WalletBalanceHistoryResampled;
 import org.zeveon.walletmanagementview.domain.query.FindDefaultWalletHistoryByDateTimeRangeQuery;
-import org.zeveon.walletmanagementview.domain.repository.WalletBalanceHistoryRepository;
+import org.zeveon.walletmanagementview.domain.repository.WalletBalanceHistoryResampledRepository;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -34,7 +36,7 @@ public class WalletBalanceHistoryQueryHandlerTest {
     private static final String DEFAULT_WALLET_ID = "467f7419-e9ac-4ffd-8a02-7e11310b0de0";
 
     @Mock
-    private WalletBalanceHistoryRepository repository;
+    private WalletBalanceHistoryResampledRepository repository;
 
     @InjectMocks
     private WalletBalanceHistoryQueryHandler handler;
@@ -59,88 +61,88 @@ public class WalletBalanceHistoryQueryHandlerTest {
                         ZonedDateTime.parse("2019-10-05T13:00:00+00:00"),
                         ZonedDateTime.parse("2019-10-05T13:00:01+00:00"),
                         List.of(
-                                buildWalletBalanceHistory(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000))
+                                buildWalletBalanceHistoryResampled(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000))
                         ),
                         List.of(
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000))
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000))
                         )
                 ),
                 arguments(
                         ZonedDateTime.parse("2019-10-05T12:00:00+00:00"),
                         ZonedDateTime.parse("2019-10-05T13:00:00+00:00"),
                         List.of(
-                                buildWalletBalanceHistory(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000))
+                                buildWalletBalanceHistoryResampled(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000))
                         ),
                         List.of(
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T12:00:00+00:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000))
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T12:00:00+00:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000))
                         )
                 ),
                 arguments(
                         ZonedDateTime.parse("2019-10-05T12:59:59+00:00"),
                         ZonedDateTime.parse("2019-10-05T13:59:59+00:00"),
                         List.of(
-                                buildWalletBalanceHistory(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000))
+                                buildWalletBalanceHistoryResampled(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000))
                         ),
                         List.of(
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T12:00:00+00:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000))
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T12:00:00+00:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000))
                         )
                 ),
                 arguments(
                         ZonedDateTime.parse("2019-10-05T12:59:59+00:00"),
                         ZonedDateTime.parse("2019-10-05T14:00:00+00:00"),
                         List.of(
-                                buildWalletBalanceHistory(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T14:45:05+00:00"), BigDecimal.valueOf(1001.1))
+                                buildWalletBalanceHistoryResampled(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T14:45:05+00:00"), BigDecimal.valueOf(1001.1))
                         ),
                         List.of(
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T12:00:00+00:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T14:00:00+00:00"), BigDecimal.valueOf(1001.1))
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T12:00:00+00:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T14:00:00+00:00"), BigDecimal.valueOf(1001.1))
                         )
                 ),
                 arguments(
                         ZonedDateTime.parse("2019-10-05T19:00:00+07:00"),
                         ZonedDateTime.parse("2019-10-05T21:00:00+07:00"),
                         List.of(
-                                buildWalletBalanceHistory(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T14:45:05+00:00"), BigDecimal.valueOf(1001.1))
+                                buildWalletBalanceHistoryResampled(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T14:45:05+00:00"), BigDecimal.valueOf(1001.1))
                         ),
                         List.of(
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T19:00:00+07:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T20:00:00+07:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T21:00:00+07:00"), BigDecimal.valueOf(1001.1))
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T19:00:00+07:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T20:00:00+07:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T21:00:00+07:00"), BigDecimal.valueOf(1001.1))
                         )
                 ),
                 arguments(
                         ZonedDateTime.parse("2019-10-05T19:00:00+07:00"),
                         ZonedDateTime.parse("2019-10-05T09:00:00-05:00"),
                         List.of(
-                                buildWalletBalanceHistory(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T14:45:05+00:00"), BigDecimal.valueOf(1001.1))
+                                buildWalletBalanceHistoryResampled(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T14:45:05+00:00"), BigDecimal.valueOf(1001.1))
                         ),
                         List.of(
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T19:00:00+07:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T20:00:00+07:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T21:00:00+07:00"), BigDecimal.valueOf(1001.1))
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T19:00:00+07:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T20:00:00+07:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T21:00:00+07:00"), BigDecimal.valueOf(1001.1))
                         )
                 ),
                 arguments(
                         ZonedDateTime.parse("2019-10-05T12:48:01+00:00"),
                         ZonedDateTime.parse("2019-10-05T17:48:02+00:00"),
                         List.of(
-                                buildWalletBalanceHistory(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T14:45:05+00:00"), BigDecimal.valueOf(1001.1)),
-                                buildWalletBalanceHistory(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T17:59:59+00:00"), BigDecimal.valueOf(1153.15344839))
+                                buildWalletBalanceHistoryResampled(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T14:45:05+00:00"), BigDecimal.valueOf(1001.1)),
+                                buildWalletBalanceHistoryResampled(DEFAULT_WALLET_ID, ZonedDateTime.parse("2019-10-05T17:59:59+00:00"), BigDecimal.valueOf(1153.15344839))
                         ),
                         List.of(
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T12:00:00+00:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T14:00:00+00:00"), BigDecimal.valueOf(1001.1)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T15:00:00+00:00"), BigDecimal.valueOf(1001.1)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T16:00:00+00:00"), BigDecimal.valueOf(1001.1)),
-                                buildWalletBalanceHistory(null, ZonedDateTime.parse("2019-10-05T17:00:00+00:00"), BigDecimal.valueOf(1153.15344839))
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T12:00:00+00:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T13:00:00+00:00"), BigDecimal.valueOf(1000)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T14:00:00+00:00"), BigDecimal.valueOf(1001.1)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T15:00:00+00:00"), BigDecimal.valueOf(1001.1)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T16:00:00+00:00"), BigDecimal.valueOf(1001.1)),
+                                buildWalletBalanceHistoryResampled(null, ZonedDateTime.parse("2019-10-05T17:00:00+00:00"), BigDecimal.valueOf(1153.15344839))
                         )
                 )
         );
@@ -151,20 +153,20 @@ public class WalletBalanceHistoryQueryHandlerTest {
     public void onFindDefaultWalletHistoryByDateTimeRangeQuery_returnsExpectedResult(
             ZonedDateTime startDateTime,
             ZonedDateTime endDateTime,
-            List<WalletBalanceHistory> foundHistories,
-            List<WalletBalanceHistory> expectedResult
+            List<WalletBalanceHistoryResampled> foundHistories,
+            List<WalletBalanceHistoryResampled> expectedResult
     ) {
         var query = new FindDefaultWalletHistoryByDateTimeRangeQuery(startDateTime, endDateTime);
 
-        when(repository.findAllByWalletIdAndUpdateTimeBetweenOrderByUpdateTimeAscIdAsc(
+        when(repository.findAllById_WalletIdAndId_UpdateTimeBetweenOrderById_UpdateTimeAsc(
                 anyString(),
                 any(ZonedDateTime.class),
                 any(ZonedDateTime.class))
-        ).thenReturn(foundHistories);
+        ).thenReturn(new ArrayList<>(foundHistories));
 
         var result = handler.on(query);
 
-        verify(repository).findAllByWalletIdAndUpdateTimeBetweenOrderByUpdateTimeAscIdAsc(
+        verify(repository).findAllById_WalletIdAndId_UpdateTimeBetweenOrderById_UpdateTimeAsc(
                 anyString(),
                 any(ZonedDateTime.class),
                 any(ZonedDateTime.class));
@@ -174,10 +176,12 @@ public class WalletBalanceHistoryQueryHandlerTest {
         assertTrue(result.containsAll(expectedResult));
     }
 
-    private static WalletBalanceHistory buildWalletBalanceHistory(String id, ZonedDateTime initialDate, BigDecimal initialBalance) {
-        return WalletBalanceHistory.builder()
-                .walletId(id)
-                .updateTime(initialDate)
+    private static WalletBalanceHistoryResampled buildWalletBalanceHistoryResampled(String id, ZonedDateTime initialDate, BigDecimal initialBalance) {
+        return WalletBalanceHistoryResampled.builder()
+                .id(WalletBalanceHistoryId.builder()
+                        .walletId(id)
+                        .updateTime(initialDate)
+                        .build())
                 .balance(initialBalance)
                 .build();
     }

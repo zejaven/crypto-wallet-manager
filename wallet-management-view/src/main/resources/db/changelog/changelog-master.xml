@@ -6,4 +6,5 @@
 
     <include file="v1.0/2023-05-10-08-00-00_create-token-entry-table.xml" relativeToChangelogFile="true"/>
     <include file="v1.0/2023-05-10-09-00-00_create-wallet-balance-history-table.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0/2023-05-18-16-15-00_create-wallet-balance-history-resampled-table.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
