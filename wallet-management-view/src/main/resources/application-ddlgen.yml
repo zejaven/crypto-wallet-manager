@@ -8,7 +8,7 @@ spring:
   application:
     name: wallet-management-view
   datasource:
-    url: jdbc:postgresql://localhost:5432/wallet-view
+    url: jdbc:postgresql://localhost:5432/wallet-view-test
     username: ${psql.username}
     password: ${psql.password}
     driver-class-name: org.postgresql.Driver
