@@ -1,7 +1,6 @@
 package org.zeveon.walletmanagementview.infrastructure.config;
 
 import com.thoughtworks.xstream.XStream;
-import lombok.RequiredArgsConstructor;
 import org.axonframework.serialization.Serializer;
 import org.axonframework.serialization.xml.XStreamSerializer;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +14,6 @@ import java.util.List;
  * @author Stanislav Vafin
  */
 @Configuration
-@RequiredArgsConstructor
 public class AxonConfig {
 
     private static final List<String> ALLOWED_PACKAGES = List.of(
