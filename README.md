@@ -26,8 +26,12 @@
 
 1. To launch the application, Java 17 and Maven must be installed on the system and corresponding system environment variables must be set.
 2. Install PostgreSQL on your system.
-3. Create a database with the name **wallet-view**, and create a database schema with name **wallet_management**.
-4. Create a file named **hidden.yml** in wallet-management-module: **wallet-management-view/src/main/resources**, and include your PostgreSQL username and password in the following format:
+3. Create two databases named **wallet-view** and **wallet-token-store**.
+4. Within the **wallet-view** database, create a schema named **wallet_management**.
+5. Create two files named **hidden.yml**: 
+   1) In the wallet-management module at **wallet-management/src/main/resources**.
+   2) In the wallet-management-view module at **wallet-management-view/src/main/resources**.
+6. In both files, include your PostgreSQL username and password in the following format:
 ```
 psql:
   username: {your_username}
