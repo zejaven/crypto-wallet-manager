@@ -53,6 +53,6 @@ Note:
 ### Tests
 
 1. To run the tests, Java 17 and Maven must be installed on the system and corresponding system environment variables must be set.
-2. Use **start-tests.bat** to launch the tests on Windows or start-tests.sh if you have Git Bash installed (script won't work on Linux because here's .zip file of AxonServer)
+2. Use **start-tests.bat** to launch the tests on Windows or **start-tests.sh** if you have Git Bash installed (script won't work on Linux because here's .zip file of AxonServer)
 
 ---
